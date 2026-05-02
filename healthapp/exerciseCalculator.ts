@@ -9,28 +9,25 @@ interface Result {
 }
 
 const calculateExercises = (exerciseHours: number[], target: number): Result => {
-  const periodLength = exerciseHours.length;
-  const trainingDays = exerciseHours.filter(d => d != 0).length;
-
-  let sum = 0;
-  for (let i = 0; i < exerciseHours.length; i++) {
-    sum += exerciseHours[i];
+  if (exerciseHours.length === 0) {
+    throw new Error('exerciseHours array must not be empty');
   }
 
-  const average = sum / exerciseHours.length;
+  const periodLength = exerciseHours.length;
+  const trainingDays = exerciseHours.filter(d => d !== 0).length;
+  const average = exerciseHours.reduce((acc, cur) => acc + cur, 0) / exerciseHours.length;
   const success = average >= target;
 
   let rating: number;
 
   if (success) {
     rating = 3;
+  } else if (target - average < 0.5) {
+    rating = 2;
   } else {
-    if (target - average < 0.5) {
-      rating = 2;
-    } else {
-      rating = 1;
-    }
+    rating = 1;
   }
+
 
   let ratingDescription: string;
 
@@ -39,7 +36,7 @@ const calculateExercises = (exerciseHours: number[], target: number): Result => 
   } else if (rating === 2) {
     ratingDescription = 'not too bad but could be better';
   } else {
-    ratingDescription = 'good job! you met your target traing hours';
+    ratingDescription = 'good job! you met your target training hours';
   }
 
   return {
