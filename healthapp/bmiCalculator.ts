@@ -17,7 +17,7 @@ export const calculateBmi = (height: number, weight: number): string => {
     return 'Obese (Class II)';
   }
   return 'Obese (Class III)';
-}
+};
 
 /*
 console.log(calculateBmi(180, 45));
@@ -27,7 +27,7 @@ console.log(calculateBmi(180, 90));
 console.log(calculateBmi(180, 100));
 */
 
-if (process.argv[1] === import.meta.filename) {
+if (process.argv[1] !== import.meta.filename) {
   const height: number = Number(process.argv[2]);
   const weight: number = Number(process.argv[3]);
 

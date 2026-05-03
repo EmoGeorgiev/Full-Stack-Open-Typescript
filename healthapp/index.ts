@@ -23,7 +23,8 @@ app.get('/bmi', (req, res) => {
       height,
       bmi
     });
-  } catch (error) {
+  } catch (error: unknown) {
+    console.log(error);
     return res
       .status(400)
       .json({
