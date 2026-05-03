@@ -1,4 +1,4 @@
-interface Result {
+export interface Result {
   periodLength: number;
   trainingDays: number;
   success: boolean;
@@ -8,7 +8,7 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (exerciseHours: number[], target: number): Result => {
+export const calculateExercises = (exerciseHours: number[], target: number): Result => {
   if (exerciseHours.length === 0) {
     throw new Error('exerciseHours array must not be empty');
   }
@@ -52,25 +52,27 @@ const calculateExercises = (exerciseHours: number[], target: number): Result => 
 
 //console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
 
-const target: number = Number(process.argv[2]);
-const exerciseHours: number[] = process.argv.slice(3).map(arg => {
-  const number = Number(arg);
+if (process.argv[1] === import.meta.filename) {
+  const target: number = Number(process.argv[2]);
+  const exerciseHours: number[] = process.argv.slice(3).map(arg => {
+    const number = Number(arg);
 
-  if (isNaN(number)) {
-    throw new Error('The passed argument is invalid: ' + arg);
+    if (isNaN(number)) {
+      throw new Error('The passed argument is invalid: ' + arg);
+    }
+
+    return number;
+  });
+
+  if (isNaN(target)) {
+    throw new Error('The passed argument to target is not a number');
   }
 
-  return number;
-});
-
-if (isNaN(target)) {
-  throw new Error('The passed argument to target is not a number');
-}
-
-try {
-  console.log(calculateExercises(exerciseHours, target));
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.log(error.message);
+  try {
+    console.log(calculateExercises(exerciseHours, target));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
   }
 }
