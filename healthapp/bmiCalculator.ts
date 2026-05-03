@@ -1,4 +1,4 @@
-const calculateBmi = (height: number, weight: number): string => {
+export const calculateBmi = (height: number, weight: number): string => {
   const bmi = (weight / (height * height)) * 100 * 100;
 
   if (bmi < 16) {
@@ -27,21 +27,23 @@ console.log(calculateBmi(180, 90));
 console.log(calculateBmi(180, 100));
 */
 
-const height: number = Number(process.argv[2]);
-const weight: number = Number(process.argv[3]);
+if (process.argv[1] === import.meta.filename) {
+  const height: number = Number(process.argv[2]);
+  const weight: number = Number(process.argv[3]);
 
-if (isNaN(height)) {
-  throw new Error('The passed argument to height is not a number');
-}
+  if (isNaN(height)) {
+    throw new Error('The passed argument to height is not a number');
+  }
 
-if (isNaN(weight)) {
-  throw new Error('The passed argument to weight is not a number');
-}
+  if (isNaN(weight)) {
+    throw new Error('The passed argument to weight is not a number');
+  }
 
-try {
-  console.log(calculateBmi(height, weight));
-} catch (error: unknown) {
-  if (error instanceof Error) {
-    console.log(error.message);
+  try {
+    console.log(calculateBmi(height, weight));
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.log(error.message);
+    }
   }
 }

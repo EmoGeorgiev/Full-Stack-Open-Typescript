@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "noImplicitAny": true,
     "noEmit": true,
     "types": [
       "node"
