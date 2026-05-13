@@ -1,6 +1,6 @@
 import express from 'express';
 import patientService from '../services/patientService.ts';
-import type { NewPatient } from '../types.ts';
+import parseNewPatient from '../utils.ts';
 
 const router = express.Router();
 
@@ -10,8 +10,9 @@ router.get('/', (_req, res) => {
 
 router.post('/', (req, res) => {
   try {
-    const newPatient = req.body as NewPatient;
+    const newPatient = parseNewPatient(req.body);
     const addedPatient = patientService.addPatient(newPatient);
+    console.log(addedPatient);
     res.json(addedPatient);
   } catch (error: unknown) {
     let errorMessage = 'Something went wrong';
