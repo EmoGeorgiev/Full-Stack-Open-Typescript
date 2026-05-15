@@ -17,10 +17,13 @@ export const Visibility = {
 
 export type Visibility = typeof Visibility[keyof typeof Visibility];
 
-export interface Diary {
-  id: number;
+export interface NewDiaryEntry {
   weather: Weather;
   visibility: Visibility;
   date: string;
   comment: string;
+}
+
+export interface DiaryEntry extends NewDiaryEntry {
+  id: number;
 }
