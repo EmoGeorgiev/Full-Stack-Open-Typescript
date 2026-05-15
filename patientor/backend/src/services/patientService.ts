@@ -9,7 +9,16 @@ const getNonSSNPatients = (): NonSSNPatient[] => {
     dateOfBirth,
     gender,
     occupation,
+    entries: []
   }));
+};
+
+const findPatient = (id: string) => {
+  const patient = patients.find(p => p.id === id);
+  return {
+    ...patient,
+    entries: []
+  };
 };
 
 const addPatient = (patient: NewPatient): Patient => {
@@ -17,7 +26,8 @@ const addPatient = (patient: NewPatient): Patient => {
 
   const newPatient = {
     id,
-    ...patient
+    ...patient,
+    entries: []
   };
 
   patients.push(newPatient);
@@ -26,5 +36,6 @@ const addPatient = (patient: NewPatient): Patient => {
 
 export default {
   getNonSSNPatients,
-  addPatient
+  addPatient,
+  findPatient
 };

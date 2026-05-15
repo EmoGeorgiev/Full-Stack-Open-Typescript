@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Entry {
+}
+
 export const Gender = {
   Male: 'male',
   Female: 'female',
@@ -26,6 +30,9 @@ export type NewPatient = z.infer<typeof NewPatientSchema>;
 
 export interface Patient extends NewPatient {
   id: string;
+  entries: Entry[];
 }
 
 export type NonSSNPatient = Omit<Patient, 'ssn'>;
+
+export type NonSensitivePatient = Omit<Patient, 'ssn' | 'entries'>;
