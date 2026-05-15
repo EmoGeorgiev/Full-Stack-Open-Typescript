@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { DiaryEntry, NewDiaryEntry, Visibility, Weather } from './types';
 import diaryService from './diaryService';
+import axios from 'axios';
 
 const App = () => {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
@@ -8,13 +9,14 @@ const App = () => {
   const [visibility, setVisibility] = useState<Visibility | null>(null);
   const [weather, setWeather] = useState<Weather | null>(null);
   const [comment, setComment] = useState<string>('');
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     diaryService.getDiaries()
       .then(initialDiaries => setDiaries(initialDiaries));
   }, []);
 
-  const diaryCreation = (e: React.SyntheticEvent) => {
+  const diaryCreation = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     if (!visibility || !weather) {
@@ -28,17 +30,33 @@ const App = () => {
       comment
     };
 
-    diaryService.addDiary(newDiary)
-      .then(returnedDiary => setDiaries(diaries.concat(returnedDiary)));
+    try {
+      await diaryService.addDiary(newDiary)
+        .then(returnedDiary => setDiaries(diaries.concat(returnedDiary)));
+      setDate('');
+      setVisibility(null);
+      setWeather(null);
+      setComment('');
+      setError('');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(`Error: ${error.message}`);
+        const data = error.response?.data;
 
-    setDate('');
-    setVisibility(null);
-    setWeather(null);
-    setComment('');
+        let message = 'Error: ';
+
+        if (Array.isArray(data?.error)) {
+          message += data.error.map((o: { message: string }) => o.message).join('\n');
+          setError(message);
+        }
+      }
+    }
   }
 
   return (
     <div>
+      <h2>Add new entry</h2>
+      <p style={{ color: 'red', whiteSpace: 'pre-line' }}>{error}</p>
       <form onSubmit={diaryCreation}>
         <div>
           <input
