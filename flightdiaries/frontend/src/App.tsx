@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import type { DiaryEntry, NewDiaryEntry, Visibility, Weather } from './types';
+import { Visibility, Weather, type DiaryEntry, type NewDiaryEntry } from './types';
 import diaryService from './diaryService';
 import axios from 'axios';
+
+const visibilityOptions = Object.values(Visibility);
+const weatherOptions = Object.values(Weather);
 
 const App = () => {
   const [diaries, setDiaries] = useState<DiaryEntry[]>([]);
@@ -59,24 +62,43 @@ const App = () => {
       <p style={{ color: 'red', whiteSpace: 'pre-line' }}>{error}</p>
       <form onSubmit={diaryCreation}>
         <div>
+          date:
           <input
+            type='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
         </div>
         <div>
-          <input
-            value={visibility ?? ''}
-            onChange={(e) => setVisibility(e.target.value as Visibility)}
-          />
+          visibility:
+          {visibilityOptions.map(option => (
+            <label key={option}>
+              <input
+                type='radio'
+                name='visibility'
+                value={option}
+                onChange={() => setVisibility(option)}
+              />
+              {option}
+            </label>
+          ))}
         </div>
         <div>
-          <input
-            value={weather ?? ''}
-            onChange={(e) => setWeather(e.target.value as Weather)}
-          />
+          weather:
+          {weatherOptions.map(option => (
+            <label key={option}>
+              <input
+                type='radio'
+                name='weather'
+                value={option}
+                onChange={() => setWeather(option)}
+              />
+              {option}
+            </label>
+          ))}
         </div>
         <div>
+          comment:
           <input
             value={comment}
             onChange={(e) => setComment(e.target.value)}
