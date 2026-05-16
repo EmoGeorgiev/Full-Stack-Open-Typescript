@@ -67,6 +67,52 @@ export interface Diagnosis {
   latin?: string;
 }
 
+const DischargeSchema = z.object({
+  date: z.iso.date(),
+  criteria: z.string()
+});
+
+const SickLeaveSchema = z.object({
+  startDate: z.iso.date(),
+  endDate: z.iso.date()
+});
+
+const BaseEntrySchema = z.object({
+  date: z.iso.date(),
+  description: z.string(),
+  specialist: z.string(),
+  diagnosisCodes: z.array(z.string()).optional()
+});
+
+const HospitalEntrySchema = BaseEntrySchema.extend({
+  type: z.literal('Hospital'),
+  discharge: DischargeSchema
+});
+
+const OccupationalHealthcareEntrySchema = BaseEntrySchema.extend({
+  type: z.literal('OccupationalHealthcare'),
+  employerName: z.string(),
+  sickLeave: SickLeaveSchema.optional()
+});
+
+const HealthCheckEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("HealthCheck"),
+  healthCheckRating: z.union([
+    z.literal(HealthCheckRating.Healthy),
+    z.literal(HealthCheckRating.LowRisk),
+    z.literal(HealthCheckRating.HighRisk),
+    z.literal(HealthCheckRating.CriticalRisk),
+  ]),
+});
+
+export const EntrySchema = z.discriminatedUnion('type', [
+  HealthCheckEntrySchema,
+  HospitalEntrySchema,
+  OccupationalHealthcareEntrySchema,
+]);
+
+export type NewEntry = z.infer<typeof EntrySchema>;
+
 export const NewPatientSchema = z.object({
   name: z.string(),
   dateOfBirth: z.iso.date(),

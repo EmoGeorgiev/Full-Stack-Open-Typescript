@@ -2,9 +2,12 @@ import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients.ts';
 import { useEffect, useState } from 'react';
 import { Patient } from '../../types.ts';
+import diagnosesService from '../../services/diagnoses.ts';
+import EntryDetails from '../EntryDetails/index.tsx';
 
 const PatientPage = () => {
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [diagnoses, setDiagnoses] = useState<Map<string, string>>(new Map());
   const { id } = useParams();
 
   useEffect(() => {
@@ -13,9 +16,16 @@ const PatientPage = () => {
       setPatient(patient);
     };
 
+    const getDiagnoses = async () => {
+      const newDiagnoses = await diagnosesService.getAll();
+      setDiagnoses(new Map(newDiagnoses.map(diagnosis => [diagnosis.code, diagnosis.name])));
+    };
+
     if (id) {
       findPatient(id);
     }
+
+    getDiagnoses();
   }, [id]);
 
   return (
@@ -26,17 +36,8 @@ const PatientPage = () => {
       <p>occupation: {patient?.occupation}</p>
       <p>date of birth: {patient?.dateOfBirth}</p>
       <h3>entries</h3>
-      {patient?.entries.map(e => (
-        <div>
-          <p>{e.date} {e.description}</p>
-          <ul>
-            {e.diagnosisCodes?.map(code => (
-              <li key={code}>
-                {code}
-              </li>
-            ))}
-          </ul>
-        </div>
+      {patient?.entries.map(entry => (
+        <EntryDetails key={entry.id} entry={entry} />
       ))}
     </div>
   );
