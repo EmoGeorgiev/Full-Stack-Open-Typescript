@@ -1,11 +1,15 @@
 import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients.ts';
 import { useEffect, useState } from 'react';
-import { Patient } from '../../types.ts';
+import { HealthCheckFormValues, Patient } from '../../types.ts';
 import diagnosesService from '../../services/diagnoses.ts';
 import EntryDetails from '../EntryDetails/index.tsx';
+import AddHealthCheckForm from './AddHealthCheckForm.tsx';
+import axios from 'axios';
 
 const PatientPage = () => {
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [error, setError] = useState<string>();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [diagnoses, setDiagnoses] = useState<Map<string, string>>(new Map());
   const { id } = useParams();
@@ -28,6 +32,32 @@ const PatientPage = () => {
     getDiagnoses();
   }, [id]);
 
+  const submitNewEntry = async (values: HealthCheckFormValues) => {
+    try {
+      if (id) {
+        const entry = await patientService.addEntry(id, values);
+        setPatient(prev =>
+          prev
+            ? {
+              ...prev,
+              entries: prev.entries.concat(entry)
+            }
+            : prev
+        );
+        setError('');
+      }
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        setError(` Error: ${error.message}`);
+      }
+    }
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
   return (
     <div>
       <h2>{patient?.name}</h2>
@@ -37,8 +67,21 @@ const PatientPage = () => {
       <p>date of birth: {patient?.dateOfBirth}</p>
       <h3>entries</h3>
       {patient?.entries.map(entry => (
-        <EntryDetails key={entry.id} entry={entry} />
+        <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />
       ))}
+
+      <p style={{ color: 'red', whiteSpace: 'pre-line' }}>{error}</p>
+
+      {!modalOpen &&
+        <button onClick={() => setModalOpen(true)}>
+          Add New Entry
+        </button>}
+
+      {modalOpen &&
+        <AddHealthCheckForm
+          onSubmit={submitNewEntry}
+          onCancel={closeModal}
+        />}
     </div>
   );
 };
