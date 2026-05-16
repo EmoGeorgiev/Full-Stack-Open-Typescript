@@ -3,22 +3,18 @@ import type { NewPatient, NonSSNPatient, Patient } from '../types.ts';
 import { v1 as uuid } from 'uuid';
 
 const getNonSSNPatients = (): NonSSNPatient[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
     id,
     name,
     dateOfBirth,
     gender,
     occupation,
-    entries: []
+    entries
   }));
 };
 
 const findPatient = (id: string) => {
-  const patient = patients.find(p => p.id === id);
-  return {
-    ...patient,
-    entries: []
-  };
+  return patients.find(p => p.id === id);
 };
 
 const addPatient = (patient: NewPatient): Patient => {
