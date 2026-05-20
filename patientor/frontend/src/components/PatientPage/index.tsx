@@ -1,18 +1,31 @@
 import { useParams } from 'react-router-dom';
 import patientService from '../../services/patients.ts';
 import { useEffect, useState } from 'react';
-import { HealthCheckFormValues, Patient } from '../../types.ts';
+import { EntryFormValues, Patient } from '../../types.ts';
 import diagnosesService from '../../services/diagnoses.ts';
 import EntryDetails from '../EntryDetails/index.tsx';
 import AddHealthCheckForm from './AddHealthCheckForm.tsx';
 import axios from 'axios';
+import AddOccupationalHealthcareForm from './AddOccupationalHealthcareForm.tsx';
+import AddHospitalForm from './AddHospitalForm.tsx';
+
+type FormType = 'healthcheck' | 'occupationalHealthcare' | 'hospital';
 
 const PatientPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [selectedForm, setSelectedForm] = useState<FormType>('healthcheck');
   const [error, setError] = useState<string>();
   const [patient, setPatient] = useState<Patient | null>(null);
   const [diagnoses, setDiagnoses] = useState<Map<string, string>>(new Map());
   const { id } = useParams();
+
+  const forms = {
+    healthcheck: () => <AddHealthCheckForm onSubmit={submitNewEntry} onCancel={closeModal} />,
+    occupationalHealthcare: () => <AddOccupationalHealthcareForm onSubmit={submitNewEntry} onCancel={closeModal} />,
+    hospital: () => <AddHospitalForm onSubmit={submitNewEntry} onCancel={closeModal} />,
+  };
+
+  const SelectedForm = forms[selectedForm];
 
   useEffect(() => {
     const findPatient = async (id: string) => {
@@ -32,7 +45,7 @@ const PatientPage = () => {
     getDiagnoses();
   }, [id]);
 
-  const submitNewEntry = async (values: HealthCheckFormValues) => {
+  const submitNewEntry = async (values: EntryFormValues) => {
     try {
       if (id) {
         const entry = await patientService.addEntry(id, values);
@@ -77,11 +90,20 @@ const PatientPage = () => {
           Add New Entry
         </button>}
 
+
       {modalOpen &&
-        <AddHealthCheckForm
-          onSubmit={submitNewEntry}
-          onCancel={closeModal}
-        />}
+        <div>
+          <select
+            value={selectedForm}
+            onChange={(e) => setSelectedForm(e.target.value as FormType)}
+          >
+            <option value='healthcheck'>Health Check</option>
+            <option value='occupationalHealthcare'>Occupational Healthcare</option>
+            <option value='hospital'>Hospital</option>
+          </select>
+          <SelectedForm />
+        </div>}
+
     </div>
   );
 };

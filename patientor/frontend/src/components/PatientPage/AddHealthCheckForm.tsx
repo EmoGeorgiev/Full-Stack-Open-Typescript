@@ -36,7 +36,7 @@ const AddHealthCheckForm = ({ onSubmit, onCancel }: Props) => {
 
   return (
     <>
-      <h3>New healthcheck Entry</h3>
+      <h3>New Healthcheck Entry</h3>
 
       <form onSubmit={addHealthCheck}>
         <div>
