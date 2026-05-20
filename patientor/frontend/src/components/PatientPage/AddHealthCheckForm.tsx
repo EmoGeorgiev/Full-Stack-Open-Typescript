@@ -32,43 +32,53 @@ const AddHealthCheckForm = ({ onSubmit, onCancel }: Props) => {
 
       <form onSubmit={addHealthCheck}>
         <div>
-          <input
-            type='date'
-            placeholder='date'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <label>
+            Date
+            <input
+              type='date'
+              placeholder='date'
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            placeholder='description'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <label>
+            Description
+            <input
+              placeholder='description'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            placeholder='specialist'
-            value={specialist}
-            onChange={(e) => setSpecialist(e.target.value)}
-          />
+          <label>
+            Specialist
+            <input
+              placeholder='specialist'
+              value={specialist}
+              onChange={(e) => setSpecialist(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <select
-            value={healthCheckRating}
-            onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}
-          >
-            {Object.entries(HealthCheckRating).map(([key, value]) => (
-              <option
-                key={key}
-                value={value}
-              >
-                {key} - {value}
-              </option>
-            ))}
-
-          </select>
-
+          <label>
+            Health Check Rating
+            <select
+              value={healthCheckRating}
+              onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}
+            >
+              {Object.entries(HealthCheckRating).map(([key, value]) => (
+                <option
+                  key={key}
+                  value={value}
+                >
+                  {key} - {value}
+                </option>
+              ))}
+            </select>
+          </label>
         </div>
 
         <button type='submit'>

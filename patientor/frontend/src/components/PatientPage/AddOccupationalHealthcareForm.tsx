@@ -59,63 +59,84 @@ const AddOccupationalHealthcareForm = ({ onSubmit, onCancel }: Props) => {
 
       <form onSubmit={addOccupationalHealthcare}>
         <div>
-          <input
-            type='date'
-            placeholder='date'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <label>
+            Date
+            <input
+              type='date'
+              placeholder='date'
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            placeholder='description'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <label>
+            Description
+            <input
+              placeholder='description'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            placeholder='specialist'
-            value={specialist}
-            onChange={(e) => setSpecialist(e.target.value)}
-          />
+          <label>
+            Specialist
+            <input
+              placeholder='specialist'
+              value={specialist}
+              onChange={(e) => setSpecialist(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            type='date'
-            placeholder='Start date'
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <input
-            type='date'
-            placeholder='End date'
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <input
-            placeholder='Employer name'
-            value={employerName}
-            onChange={(e) => setEmployerName(e.target.value)}
-          />
+          <label>
+            Start date
+            <input
+              type='date'
+              placeholder='Start date'
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
+          </label>
         </div>
 
         <div>
-          <select
-            multiple
-            value={diagnosisCodes}
-            onChange={handleDiagnosCodeChange}
-          >
-            {diagnoses.map(diagnoses => (
-              <option key={diagnoses.code} value={diagnoses.code}>{diagnoses.code} - {diagnoses.name}</option>
-            ))}
-          </select>
+          <label>
+            End date
+            <input
+              type='date'
+              placeholder='End date'
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Employer name
+            <input
+              placeholder='Employer name'
+              value={employerName}
+              onChange={(e) => setEmployerName(e.target.value)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label>
+            Diagnosis codes
+            <select
+              multiple
+              value={diagnosisCodes}
+              onChange={handleDiagnosCodeChange}
+            >
+              {diagnoses.map(diagnoses => (
+                <option key={diagnoses.code} value={diagnoses.code}>{diagnoses.code} - {diagnoses.name}</option>
+              ))}
+            </select>
+          </label>
         </div>
 
         <button type='submit'>

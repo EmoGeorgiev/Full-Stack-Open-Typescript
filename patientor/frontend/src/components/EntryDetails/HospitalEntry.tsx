@@ -6,6 +6,15 @@ const HospitalEntry = ({ entry, diagnoses }: { entry: HospitalEntry, diagnoses: 
       <p>{entry.date} {entry.type}</p>
       <p>{entry.description}</p>
       <p>diagnose by {entry.specialist}</p>
+      <ul>
+        {entry.diagnosisCodes?.map(diagnosis => (
+          <li key={diagnosis}>
+            {diagnosis} {diagnoses.get(diagnosis)}
+          </li>
+        ))}
+      </ul>
+      <p>discharge: {entry.discharge.date}</p>
+      <p>criteria: {entry.discharge.criteria}</p>
     </div>
   );
 };

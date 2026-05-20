@@ -50,54 +50,72 @@ const AddHospitalForm = ({ onSubmit, onCancel }: Props) => {
 
       <form onSubmit={addHospital}>
         <div>
-          <input
-            type='date'
-            placeholder='date'
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-          />
+          <label>
+            Date
+            <input
+              type='date'
+              placeholder='date'
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            placeholder='description'
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <label>
+            Description
+            <input
+              placeholder='description'
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            placeholder='specialist'
-            value={specialist}
-            onChange={(e) => setSpecialist(e.target.value)}
-          />
+          <label>
+            Specialist
+            <input
+              placeholder='specialist'
+              value={specialist}
+              onChange={(e) => setSpecialist(e.target.value)}
+            />
+          </label>
         </div>
         <div>
-          <input
-            type='date'
-            placeholder='Discharge date'
-            value={dischargeDate}
-            onChange={(e) => setDischargeDate(e.target.value)}
-          />
+          <label>
+            Discharge date
+            <input
+              type='date'
+              placeholder='Discharge date'
+              value={dischargeDate}
+              onChange={(e) => setDischargeDate(e.target.value)}
+            />
+          </label>
         </div>
 
         <div>
-          <input
-            placeholder='Discharge criteria'
-            value={dischargeCriteria}
-            onChange={(e) => setDischargeCriteria(e.target.value)}
-          />
+          <label>
+            Discharge criteria
+            <input
+              placeholder='Discharge criteria'
+              value={dischargeCriteria}
+              onChange={(e) => setDischargeCriteria(e.target.value)}
+            />
+          </label>
         </div>
 
         <div>
-          <select
-            multiple
-            value={diagnosisCodes}
-            onChange={handleDiagnosCodeChange}
-          >
-            {diagnoses.map(diagnoses => (
-              <option key={diagnoses.code} value={diagnoses.code}>{diagnoses.code} - {diagnoses.name}</option>
-            ))}
-          </select>
+          <label>
+            Diagnosis codes
+            <select
+              multiple
+              value={diagnosisCodes}
+              onChange={handleDiagnosCodeChange}
+            >
+              {diagnoses.map(diagnoses => (
+                <option key={diagnoses.code} value={diagnoses.code}>{diagnoses.code} - {diagnoses.name}</option>
+              ))}
+            </select>
+          </label>
         </div>
 
         <button type='submit'>
