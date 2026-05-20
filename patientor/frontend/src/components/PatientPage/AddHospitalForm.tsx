@@ -51,6 +51,7 @@ const AddHospitalForm = ({ onSubmit, onCancel }: Props) => {
       <form onSubmit={addHospital}>
         <div>
           <input
+            type='date'
             placeholder='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -72,6 +73,7 @@ const AddHospitalForm = ({ onSubmit, onCancel }: Props) => {
         </div>
         <div>
           <input
+            type='date'
             placeholder='Discharge date'
             value={dischargeDate}
             onChange={(e) => setDischargeDate(e.target.value)}

@@ -60,6 +60,7 @@ const AddOccupationalHealthcareForm = ({ onSubmit, onCancel }: Props) => {
       <form onSubmit={addOccupationalHealthcare}>
         <div>
           <input
+            type='date'
             placeholder='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -81,6 +82,7 @@ const AddOccupationalHealthcareForm = ({ onSubmit, onCancel }: Props) => {
         </div>
         <div>
           <input
+            type='date'
             placeholder='Start date'
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
@@ -89,6 +91,7 @@ const AddOccupationalHealthcareForm = ({ onSubmit, onCancel }: Props) => {
 
         <div>
           <input
+            type='date'
             placeholder='End date'
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}

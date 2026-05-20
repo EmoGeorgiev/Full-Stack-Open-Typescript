@@ -12,14 +12,6 @@ const AddHealthCheckForm = ({ onSubmit, onCancel }: Props) => {
   const [specialist, setSpecialist] = useState<string>('');
   const [healthCheckRating, setHealthCheckRating] = useState<HealthCheckRating>(HealthCheckRating.LowRisk);
 
-  const handleRatingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-
-    if (value in HealthCheckRating) {
-      setHealthCheckRating(value as HealthCheckRating);
-    }
-  };
-
   const addHealthCheck = (e: SyntheticEvent) => {
     e.preventDefault();
 
@@ -41,6 +33,7 @@ const AddHealthCheckForm = ({ onSubmit, onCancel }: Props) => {
       <form onSubmit={addHealthCheck}>
         <div>
           <input
+            type='date'
             placeholder='date'
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -61,11 +54,21 @@ const AddHealthCheckForm = ({ onSubmit, onCancel }: Props) => {
           />
         </div>
         <div>
-          <input
-            placeholder='healthcheck rating'
+          <select
             value={healthCheckRating}
-            onChange={(e) => handleRatingChange(e)}
-          />
+            onChange={(e) => setHealthCheckRating(Number(e.target.value) as HealthCheckRating)}
+          >
+            {Object.entries(HealthCheckRating).map(([key, value]) => (
+              <option
+                key={key}
+                value={value}
+              >
+                {key} - {value}
+              </option>
+            ))}
+
+          </select>
+
         </div>
 
         <button type='submit'>
